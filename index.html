@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Personalized Hair Product Recommendation System</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- AUTH MODAL START -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content auth-modal">
+
+                <div class="modal-header border-0 pb-0">
+                    <!-- <h4 class="modal-title fw-bold">Welcome to Hairvella</h4> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body pt-2">
+                    <div class="row g-0 auth-wrap">
+
+                    <!-- LEFT: FORM -->
+                    <div class="col-12 col-lg-7 p-4 p-lg-5">
+                        <ul class="nav nav-pills auth-tabs mb-4" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active" id="signin-tab" data-bs-toggle="pill"
+                            data-bs-target="#signin" type="button">Sign In</button>
+                        </li>
+                        <li class="nav-item ms-2">
+                            <button class="nav-link" id="signup-tab" data-bs-toggle="pill"
+                            data-bs-target="#signup" type="button">Sign Up</button>
+                        </li>
+                        </ul>
+
+                        <div class="tab-content">
+                        <!-- SIGN IN -->
+                        <div class="tab-pane fade show active" id="signin">
+                            <form id="signinForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Email address</label>
+                                    <input
+                                    class="form-control"
+                                    type="email"
+                                    name="email"
+                                    placeholder="Enter email"
+                                    required
+                                    >
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="form-label">Password</label>
+                                    <div class="position-relative">
+                                        <input
+                                        class="form-control pe-5"
+                                        type="password"
+                                        id="signinPassword"
+                                        name="password"
+                                        placeholder="Enter password"
+                                        required
+                                        >
+                                        <button
+                                        type="button"
+                                        class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 toggle-password"
+                                        data-target="signinPassword"
+                                        aria-label="Show password"
+                                        >
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 mt-3">
+                                    Sign In
+                                </button>
+
+                            </form>
+                        </div>
+
+                        <!-- SIGN UP -->
+                        <div class="tab-pane fade" id="signup">
+                            <form id="signupForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Username</label>
+                                    <input class="form-control" type="text" name="username" placeholder="Create username" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Email address</label>
+                                    <input class="form-control" type="email" name="email" placeholder="Enter email" required>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="form-label">Password</label>
+                                    <div class="position-relative">
+                                        <input
+                                        class="form-control pe-5"
+                                        type="password"
+                                        id="signupPassword"
+                                        name="password"
+                                        placeholder="Create password"
+                                        required
+                                        >
+                                        <button
+                                        type="button"
+                                        class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 toggle-password"
+                                        data-target="signupPassword"
+                                        aria-label="Show password"
+                                        >
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 mt-3">
+                                    Sign Up
+                                </button>
+
+                                <p class="text-center mt-3 mb-0 small">
+                                    Already have an account?
+                                    <a href="#" class="auth-link" id="goSignin">Sign in</a>
+                                </p>
+                            </form>
+                        </div>
+
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: IMAGE -->
+                    <div class="col-12 col-lg-5 d-none d-lg-block auth-side">
+                        <div class="auth-side-inner">
+                        <div class="auth-side-overlay"></div>
+                        <div class="auth-side-text">
+                            <h5 class="fw-bold mb-2">Tailored to your hair needs</h5>
+                            <p class="mb-0">Sign in to save your preferences and get better matches.</p>
+                        </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+
+            </div>
+         </div>
+    </div>
+    <!-- AUTH MODAL END-->
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid nav-bar p-0">
+        <div class="row gx-0 px-5 align-items-center" style="background-color: #ef60bf;">
+            <div class="col-lg-3 d-none d-lg-block">
+                
+            </div>
+            <div class="col-12 col-lg-9">
+                <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ef60bf;">
+                    <a href="" class="navbar-brand d-block d-lg-none">
+                        <h1 class="display-5 text-secondary m-0"><i
+                                class="fas fa-shopping-bag text-white me-2"></i>Electro</h1>
+                        <!-- <img src="img/logo.png" alt="Logo"> -->
+                    </a>
+                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars fa-1x"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0">
+                            <a href="index.html" class="nav-item nav-link active">Home</a>
+                            <a href="shop.html" class="nav-item nav-link">Products</a>
+                            <a href="profile.html" class="nav-item nav-link d-none" id="navProfile">Profile</a>
+                            <a href="#" class="nav-item nav-link " id="navAuthBtn">Login</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
+
+    <!-- Carousel Start -->
+    <div class="container-fluid carousel bg-light px-0">
+        <div class="row g-0 justify-content-end">
+            <div class="col-12 col-lg-7 col-xl-9" style="width: 1520px; ">
+                <div class="header-carousel owl-carousel bg-light py-5">
+                    <div class="row g-0 header-carousel-item align-items-center">
+                        <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
+                            <img src="img/homepage-1.png" class="img-fluid w-100" alt="Image">
+                        </div>
+                        <div class="col-xl-6 carousel-content p-4">
+                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s"
+                                style="letter-spacing: 3px;">Tailored to Your Hair Needs</h4>
+                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">Discover Products Made for You</h1>
+                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Get personalized haircare recommendations based on your hair type, scalp condition, lifestyle habits, and ingredient compatibility.</p>
+                            <a href="diagnostics.html"
+                                id="takeQuizBtn"
+                                class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight"
+                                data-wow-delay="0.7s">
+                                Take a Diagnostic!
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="row g-0 header-carousel-item align-items-center">
+                        <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
+                            <img src="img/homepage-2.png" class="img-fluid w-100" alt="Image">
+                        </div>
+                        <div class="col-xl-6 carousel-content p-4">
+                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s"
+                                style="letter-spacing: 3px;">How it works</h4>
+                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">A Smarter Way to Find the Right Haircare</h1>
+                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Answer a few simple questions and let our hybrid filtering system analyze what your hair truly needs.</p>
+                            <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s"
+                                href="#how-it-works">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+
+    <!-- HOW IT WORKS Start -->
+        <section id="how-it-works" class="how-it-works py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold mb-2">Here’s how it works</h1>
+            <p class="text-muted mb-0">6 quick steps — answer, match, and get products that fit you.</p>
+            </div>
+
+            <div class="how-steps">
+            <!-- Step 1 -->
+            <div class="how-step">
+                <div class="how-dot">
+                <span class="how-num">1</span>
+                <span class="how-icon"><i class="fas fa-id-card"></i></span>
+                </div>
+                <div class="how-card">
+                <h6 class="how-title">Create Your Profile</h6>
+                <p class="how-desc mb-0">Sign up and set your basic profile to personalize your results.</p>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="how-step">
+                <div class="how-dot">
+                <span class="how-num">2</span>
+                <span class="how-icon"><i class="fas fa-grip-lines"></i></span>
+                </div>
+                <div class="how-card">
+                <h6 class="how-title">Select Your Hair Type</h6>
+                <p class="how-desc mb-0">Pick your hair type to define your base needs.</p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="how-step">
+                <div class="how-dot">
+                <span class="how-num">3</span>
+                <span class="how-icon"><i class="fas fa-seedling"></i></span>
+                </div>
+                <div class="how-card">
+                <h6 class="how-title">Choose Your Scalp Condition</h6>
+                <p class="how-desc mb-0">Tell us your scalp condition to match suitable ingredients.</p>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="how-step">
+                <div class="how-dot">
+                <span class="how-num">4</span>
+                <span class="how-icon"><i class="fas fa-walking"></i></span>
+                </div>
+                <div class="how-card">
+                <h6 class="how-title">Tell Us About Your Lifestyle</h6>
+                <p class="how-desc mb-0">Answer quick lifestyle questions like water intake, sun exposure and pollution exposure.</p>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="how-step">
+                <div class="how-dot">
+                <span class="how-num">5</span>
+                <span class="how-icon"><i class="fas fa-brain"></i></span>
+                </div>
+                <div class="how-card">
+                <h6 class="how-title">Smart Matching Engine</h6>
+                <p class="how-desc mb-0">We will combines ingredient matching and user trends to recommend products.</p>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="how-step">
+                <div class="how-dot">
+                <span class="how-num">6</span>
+                <span class="how-icon"><i class="fas fa-magic"></i></span>
+                </div>
+                <div class="how-card">
+                <h6 class="how-title">Get Your Recommendations</h6>
+                <p class="how-desc mb-0">Receive a curated list of products best suited to your needs.</p>
+                </div>
+            </div>
+            </div>
+
+            <div class="text-center mt-4">
+            <a href="diagnostics.html" class="btn btn-primary rounded-pill px-4 py-2">
+                Start Diagnostic
+            </a>
+            </div>
+        </div>
+        </section>
+    <!-- HOW IT WORKS End -->
+
+    <!-- Article Start -->
+    <div class="container-fluid bg-light py-5">
+        <div class="container">
+            <div class="row g-4">   
+
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
+                    <a href="https://www.healthline.com/health/shampoo-ingredients-for-different-hair-needs"
+                    target="_blank"
+                    class="d-flex align-items-center justify-content-between border bg-white rounded p-4">
+
+                        <div>
+                            <p class="text-muted mb-2">Learn About Shampoo Ingredients</p>
+                            <h3 class="text-primary"> Ingredient Guide</h3>
+                            <h1 class="display-3 text-secondary mb-0">Read <span class="text-primary fw-normal">Labels</span></h1>
+
+                        </div>
+
+                        <img src="img/index1.jpg" class="img-fluid" alt="">
+                    </a>
+                </div>
+
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.3s">
+                    <a href="https://www.ewg.org/skindeep/" target="_blank" class="d-flex align-items-center justify-content-between border bg-white rounded p-4">
+                        <div>
+                            <p class="text-muted mb-3">Check Ingredient Safety for Hair</p>
+                            <h3 class="text-primary">Ingredient Safety Check</h3>
+                            <h1 class="display-3 text-secondary mb-0">Check <span class="text-primary fw-normal">Safety</span></h1>
+                        </div>
+                        <img src="img/index2.jpg" class="img-fluid" alt="">
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Article End -->
+
+    <!-- Trend Recommendations Start -->
+    <div class="container-fluid products pb-5">
+    <div class="container products-mini py-5">
+
+        <div class="mx-auto text-center mb-5" style="max-width: 700px;">
+        <h4 class="text-primary mb-4 border-bottom border-primary border-2 d-inline-block p-2 title-border-radius wow fadeInUp"
+            data-wow-delay="0.1s">
+            Trending Recommendations
+        </h4>
+
+        <p class="mb-0 wow fadeInUp" data-wow-delay="0.2s">
+            Most recommended products recently — perfect if you follow what people usually pick.
+        </p>
+        </div>
+
+        <!-- Loading -->
+        <div class="text-center mb-4" id="trendLoading">
+        <small class="text-muted">Loading trending products...</small>
+        </div>
+
+        <!-- Empty / Error -->
+        <div class="text-center mb-4 d-none" id="trendEmpty">
+        <small class="text-muted">
+            No trending products yet. Run the diagnostic to generate recommendations.
+        </small>
+        </div>
+
+        <!-- Dynamic cards inject here -->
+        <div class="row g-4" id="trendProductsRow"></div>
+
+    </div>
+    </div>
+    <!-- Trend Recommendations End -->
+
+    <!-- Product Banner Start -->
+    <!-- <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
+                    <a href="#">
+                        <div class="bg-primary rounded position-relative">
+                            <img src="img/product-banner.jpg" class="img-fluid w-100 rounded" alt="">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center rounded p-4"
+                                style="background: rgba(255, 255, 255, 0.5);">
+                                <h3 class="display-5 text-primary">EOS Rebel <br> <span>T7i Kit</span></h3>
+                                <p class="fs-4 text-muted">$899.99</p>
+                                <a href="#" class="btn btn-primary rounded-pill align-self-start py-2 px-4">Shop Now</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
+                    <a href="#">
+                        <div class="text-center bg-primary rounded position-relative">
+                            <img src="img/product-banner-2.jpg" class="img-fluid w-100" alt="">
+                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center rounded p-4"
+                                style="background: rgba(242, 139, 0, 0.5);">
+                                <h2 class="display-2 text-secondary">SALE</h2>
+                                <h4 class="display-5 text-white mb-4">Get UP To 50% Off</h4>
+                                <a href="#" class="btn btn-secondary rounded-pill align-self-center py-2 px-4">Shop
+                                    Now</a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Product Banner End -->
+    
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright py-4">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-md-0">
+                    <span class="text-white"><a href="#" class="border-bottom text-white"><i
+                                class="fas fa-copyright text-light me-2"></i>Personalized Hair Product Recommendation System</a>, All right
+                        reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end text-white">
+
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                    Designed By <a class="border-bottom text-white" href="">Dewi 2026</a>.
+                    Distributed By <a class="border-bottom text-white" href="">UiTM Kampus Jasin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+    <!-- Modal Start-->
+     <!-- PRODUCT DETAIL MODAL (copied from shop.html) -->
+        <div class="modal fade" id="productDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4">
+
+            <!-- HEADER -->
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Product Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+                <div class="row g-4">
+
+                <!-- IMAGE -->
+                <div class="col-md-5 text-center">
+                    <img src="img/product-4.png" class="img-fluid rounded" alt="Product Image">
+                </div>
+
+                <!-- INFO -->
+                <div class="col-md-7">
+                    <span class="badge bg-danger" id="modalRatingBadge">★★★★★ (5.0)</span>
+
+                    <h4 class="fw-bold">Product Name</h4>
+
+                    <!-- PRICE -->
+                    <div class="fs-4 text-primary fw-bold mt-2">RM0.00</div>
+
+                    <div class="mt-2">
+                    <small class="text-muted" id="modalReviews">Reviews: No reviews</small>
+                    </div>
+
+                    <!-- INGREDIENTS / DESC -->
+                    <hr>
+                    <p class="text-muted mb-0">No information</p>
+
+                    <div class="mt-4">
+                    <button class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                        Back
+                    </button>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+        </div>
+    <!-- Modal End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="js/main.js"></script>
+
+    <!-- For sign in/sign up-->
+    <script src="js/auth.js"></script>
+
+    <script src="js/trend-products.js"></script>
+
+    <style>
+        /* --- Make eye overlay same as shop.html --- */
+        .product-item-inner-item {
+        position: relative;
+        overflow: hidden;
+        }
+
+        /* overlay layer */
+        .product-details {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;      /* center vertically */
+        justify-content: center;  /* center horizontally */
+        opacity: 0;
+        transition: 0.2s ease;
+        }
+
+        /* show overlay on hover */
+        .product-item-inner-item:hover .product-details {
+        opacity: 1;
+        }
+
+        /* pink circular eye button */
+        .product-details .btn-view {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #ff4fa3;  /* pink */
+        color: #fff;
+        text-decoration: none;
+
+        box-shadow: 0 10px 25px rgba(255, 79, 163, 0.35);
+        transition: 0.2s ease;
+        }
+
+        /* hover “pop” */
+        .product-details .btn-view:hover {
+        transform: scale(1.05);
+        }
+
+        /* optional: make the icon size similar */
+        .product-details .btn-view i {
+        font-size: 18px;
+        }
+
+    </style>
+
+</body>
+
+</html>
